@@ -1,4 +1,4 @@
-## emma_up_event_app
+### emma_up_event_app
 
 Event App for Emma Up
 
