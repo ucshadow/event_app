@@ -1,5 +1,3 @@
-We store models here.
-
 Models are used inside the app.
 
 Remote models are the ones from the external api (ticketmaster)
