@@ -6,6 +6,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../abstract/managers/i_event_manager.dart';
 import '../models/remote/ticket_master_event/tm_event.dart';
 import '../net/ticket_master_api.dart';
+import '../util/logger.dart';
 import '../util/state_controller.dart';
 
 class TMEventManager extends StateController implements IEventManager {
@@ -46,18 +47,8 @@ class TMEventManager extends StateController implements IEventManager {
   /// to the same end point awaits that future to end
   Future<List<TMEvent>>? _getEvents;
 
-  @override
-  Future<List<TMEvent>> getEvents() async {
-    if (_getEvents != null) {
-      return await _getEvents!;
-    }
-    if (_cached.isEmpty) {
-      _getEvents = TicketMasterApi().getEvents();
-      _cached.addAll(await _getEvents!);
-    }
-    _getEvents = null;
-    return _cached;
-  }
+  DateTime _lastApiCall = DateTime.now();
+  final Duration _timeout = const Duration(seconds: 2);
 
   @override
   void resetParams() {
@@ -69,6 +60,16 @@ class TMEventManager extends StateController implements IEventManager {
 
   @override
   Future<List<TMEvent>> getEventsWithKeyWord() async {
+    final DateTime now = DateTime.now();
+    final DateTime check = _lastApiCall.add(_timeout);
+
+    if(now.isBefore(check) && _cached.isNotEmpty) {
+      logger.i('Returning old data, throttled');
+      return _cached;
+    }
+
+    _lastApiCall = now;
+
     if (_getEvents != null) {
       return await _getEvents!;
     }
@@ -89,6 +90,19 @@ class TMEventManager extends StateController implements IEventManager {
     streamController.sink.add(_eventsShown);
     _getEvents = null;
     _currentPageNumber++;
+    return _cached;
+  }
+
+  @override
+  Future<List<TMEvent>> getEvents() async {
+    if (_getEvents != null) {
+      return await _getEvents!;
+    }
+    if (_cached.isEmpty) {
+      _getEvents = TicketMasterApi().getEvents();
+      _cached.addAll(await _getEvents!);
+    }
+    _getEvents = null;
     return _cached;
   }
 
