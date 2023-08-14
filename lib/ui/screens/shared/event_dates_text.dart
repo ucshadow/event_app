@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../util/helpers.dart';
+import '../../../util/helpers.dart';
 
 class EventDatesText extends StatelessWidget {
   const EventDatesText({
