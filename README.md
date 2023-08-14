@@ -36,3 +36,9 @@ own managers if they extend `lib\util\StateController`.
 If I really had to chose a state library, I would have gone with `get` or `bloc` in this order.
 My initial idea was to use Isar and the ability it provides to 'observe' data changes, but that 
 failed as I had the issue described above.
+
+# About design (as in UI)
+I tried as best as I could to follow the design specs provided on figma, but at some point I had to
+compromise between having a 100% compliant design and having an app with more working features and
+better code, so I kin of choose both, resulting in the design not following 100% the specs, mostly
+some icons and colors.
