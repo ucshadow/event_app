@@ -3,6 +3,12 @@ Event App for Emma Up
 Fonts from -> https://www.fontshungry.com/download/tiempos/
 
 
+### API KEY
+You need to provide your own api key if you want to compile and/or use the app in an emulator.
+You need to create an `.env` file in the root folder and put your api key in there as in the 
+'.env.example' file!
+
+
 # Most sub-folders have they own readme with my thoughts
 
 
